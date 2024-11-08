@@ -20,7 +20,7 @@ jobs:
  
       - name: Install nbconvert and nbformat
         run: |
-          pip install nbconvert nbformat
+          pip install nbconvert nbformat ipython
  
       - name: Find and reconvert scripts
         run: |

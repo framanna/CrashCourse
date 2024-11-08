@@ -21,8 +21,8 @@ jobs:
         with:
           python-version: '3.8'
  
-      - name: Install nbconvert
-        run: pip install nbconvert
+      - name: Install nbconvert and IPython
+        run: pip install nbconvert ipython
  
       - name: Find and convert notebooks
         run: |

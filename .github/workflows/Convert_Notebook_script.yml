@@ -27,14 +27,25 @@ jobs:
       - name: Find and convert notebooks
         run: |
           for notebook in $(find . -name "*.ipynb"); do
+            echo "Converting $notebook to script"
             jupyter nbconvert --to script "$notebook"
             cp "$notebook" "${notebook%.ipynb}.original.ipynb"
           done
+
+      - name: List files for debugging
+        run: |
+          echo "Listing files in the repo"
+          ls -R 
  
       - name: Check for changes
         id: changes
         run: |
           git diff --exit-code || echo "changes"
+          echo "::set-output name=changes::$(git diff --exit-code || echo 'changes')"
+
+      - name: Debuck Check for changes output
+        run: |
+          echo "Changes detected: {{ steps.changes.outputs.changes }}"
  
       - name: Commit changes
         if: steps.changes.outputs.changes == 'changes'

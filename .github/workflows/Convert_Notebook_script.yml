@@ -40,15 +40,18 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --exit-code || echo "changes"
-          echo "::set-output name=changes::$(git diff --exit-code || echo 'changes')"
+          git diff --exit-code; then
+            echo "changes=false" >> $GITHUB_STATE
+          else
+            echo "changes=true" >> $GITHUB_STATE
+          fi
 
       - name: Debuck Check for changes output
         run: |
           echo "Changes detected: ${{ steps.changes.outputs.changes }}"
  
       - name: Commit changes
-        if: steps.changes.outputs.changes == 'changes'
+        if: ${{ state.changes }} == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'

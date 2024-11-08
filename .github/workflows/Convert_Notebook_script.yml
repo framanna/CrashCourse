@@ -41,17 +41,19 @@ jobs:
         id: changes
         run: |
           git diff --exit-code; then
-            echo "changes=false" >> $GITHUB_STATE
+            echo "CHANGES=false" >> $GITHUB_ENV
           else
-            echo "changes=true" >> $GITHUB_STATE
+            echo "CHANGES=true" >> $GITHUB_ENV
           fi
 
       - name: Debuck Check for changes output
         run: |
-          echo "Changes detected: ${{ steps.changes.outputs.changes }}"
+          echo "Changes detected: $CHANGES"
+        env:
+          CHANGES: ${{ env.CHANGES }}
  
       - name: Commit changes
-        if: ${{ state.changes }} == 'true'
+        if: env.CHANGES == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -60,3 +62,4 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGES: ${{ env.CHANGES }}

@@ -1,15 +1,12 @@
-name: Convert Notebooks to Python Scripts
+name: Reconvert Python Scripts to Notebooks
  
 on:
   push:
-    paths:
-      - '**/*.ipynb'
-  pull_request:
-    paths:
-      - '**/*.ipynb'
+    branches:
+      - main
  
 jobs:
-  convert:
+  reconvert:
     runs-on: ubuntu-latest
  
     steps:
@@ -21,14 +18,18 @@ jobs:
         with:
           python-version: '3.8'
  
-      - name: Install nbconvert
-        run: pip install nbconvert
- 
-      - name: Find and convert notebooks
+      - name: Install nbconvert and nbformat
         run: |
-          for notebook in $(find . -name "*.ipynb"); do
-            jupyter nbconvert --to script "$notebook"
-            cp "$notebook" "${notebook%.ipynb}.original.ipynb"
+          pip install nbconvert nbformat
+ 
+      - name: Find and reconvert scripts
+        run: |
+          for original_notebook in $(find . -name "*.original.ipynb"); do
+            notebook="${original_notebook%.original.ipynb}.ipynb"
+            if [ ! -f "$notebook" ]; then
+              echo "Restoring notebook from $original_notebook"
+              cp "$original_notebook" "$notebook"
+            fi
           done
  
       - name: Check for changes
@@ -41,8 +42,8 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add **/*.py **/*.original.ipynb
-          git commit -m 'Convert notebooks to Python scripts and store original notebooks'
+          git add **/*.ipynb
+          git commit -m 'Reconvert Python scripts to Jupyter notebooks'
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,4 @@
-name: Convert Notebooks to Python Scripts
+name: Update Notebooks to Python Scripts
  
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - '**/*.ipynb'
  
 jobs:
-  convert:
+  update:
     runs-on: ubuntu-latest
  
     steps:
@@ -42,7 +42,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add **/*.py **/*.original.ipynb
-          git commit -m 'Convert notebooks to Python scripts and store original notebooks'
+          git commit -m 'Update Python scripts from notebooks'
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

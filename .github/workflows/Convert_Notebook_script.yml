@@ -40,7 +40,7 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --exit-code; then
+          if git diff --exit-code; then
             echo "CHANGES=false" >> $GITHUB_ENV
           else
             echo "CHANGES=true" >> $GITHUB_ENV

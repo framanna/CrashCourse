@@ -44,7 +44,9 @@ jobs:
           echo "::set-output name=changes::$(git diff --exit-code || echo 'changes')"
       
       - name: Debuck Check for changes output
-        run: echo "Changes detected: ${{ steps.changes.outputs.changes }}"
+        run: echo "Changes detected: $CHANGES"
+        env:
+          CHANGES: ${{ steps.changes.outputs.changes}}
  
       - name: Commit changes
         if: steps.changes.outputs.changes == 'changes'

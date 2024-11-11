@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: dist_file
+          path: dist-files
 
   deploy:
     needs: build

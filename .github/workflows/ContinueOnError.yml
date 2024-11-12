@@ -47,7 +47,7 @@ jobs:
         run: ls -la ~/.npm
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true' # Dummy
         run: npm ci
 
       - name: Test code

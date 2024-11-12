@@ -92,7 +92,7 @@ jobs:
         run: echo "${{ needs.build.outputs.script-file }}"  
       - name: Deploy project
         run: echo "Deploying..."
-  report:
+  report: # Dummy comment
     needs: [lint, deploy] # So that failure works, and is in paralell, we need a sequential flow, to failure() to walk
     if: failure() # IF any other job failed, "report will be run"
     runs-on: ubuntu-latest

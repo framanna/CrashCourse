@@ -39,6 +39,9 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             deps-node-modules-
+      
+      - name: List home directory
+        run: ls -la ~
 
       - name: List cached files
         run: ls -la ~/.npm

@@ -18,9 +18,6 @@ jobs:
           restore-keys: |
             deps-node-modules-
 
-      - name: Check vitest installation
-        run: npm list vitest
-
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -45,6 +42,9 @@ jobs:
 
       - name: List cached files
         run: ls -la ~/.npm
+
+      - name: Check vitest installation
+        run: npm list vitest
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true' # Dummy

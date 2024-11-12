@@ -17,9 +17,17 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             deps-node-modules-
+
+      - name: List cached files
+        run: ls -la ~/.npm
+
+      - name: Check vitest installation
+        run: npm list vitest
+
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+
       - name: Lint code
         run: npm run lint
   test:
@@ -28,6 +36,7 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v4
@@ -36,18 +45,22 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             deps-node-modules-
+
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+
       - name: Test code
+        continue-on-error: true # Job should continue execution even if step fails
         id: test_code
         run: npm run test
+
       - name: Upload test report
-        if: failure() && steps.test_code.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: test.json
+
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -64,6 +77,7 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             deps-node-modules-
+            
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci

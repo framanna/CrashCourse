@@ -102,6 +102,14 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with: 
       artifact-name: dist-files # This is the input value for the other workflow to work fine, because we had only a default called "dist", whereas on build job, name = dist-files
+      # secrets:
+        # some-secret: ${{ secrets.some-secret}}
+  print-deploy-result:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deploy outputs
+        run: echo ${{ needs.deploy.outputs.result }} # result is the name that we gave to "outputs" of workflow_call on "reusable.yml"
   report: 
     needs: [lint, deploy] # So that failure works, and is in paralell, we need a sequential flow, to failure() to work
     if: failure() # IF any other job failed, "report will be run"

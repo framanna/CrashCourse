@@ -7,8 +7,17 @@ on:
         required: false # If True, then the artifact-name is mandatory to run the workflow
         default: dist # In case we have required false, and we do not provide it
         type: string
+      # secrets:
+        # some-secret: ${{ secrets.some-secret }}
+          # required: false
+    outputs:
+      result:
+        description: The result of deployment operation
+        value: ${{ jobs.deploy.outputs.outcome}}
 jobs:
   deploy:
+    outputs:
+      outcome: ${{ steps.step-result.outputs.step-result}}
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
@@ -19,3 +28,6 @@ jobs:
         run: ls
       - name: Output information
         run: echo "Deploying $ uploading..."
+      - name: Set result outputs
+        id: set-result
+        run: echo "step-result=success" >> $GITHUB_OUTPUT

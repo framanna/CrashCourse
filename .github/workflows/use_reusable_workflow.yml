@@ -81,7 +81,8 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
-
+    with: 
+      artifact-name: dist-files # This is the input value for the other workflow to work fine, because we had only a default called "dist", whereas on build job, name = dist-files
   report: 
     needs: [lint, deploy] # So that failure works, and is in paralell, we need a sequential flow, to failure() to work
     if: failure() # IF any other job failed, "report will be run"

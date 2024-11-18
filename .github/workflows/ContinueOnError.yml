@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: '20' #Node
       - name: Load & cache dependencies
-        uses: ./.github/actions/cache-deps #framanna/CrashCourse in case I had a standalone repo
+        uses: ./.github/actions/cache-deps #framanna/CrashCourse in case I had a standalone repository
 
       - name: Lint code
         run: npm run lint

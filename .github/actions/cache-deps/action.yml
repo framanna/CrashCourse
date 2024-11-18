@@ -5,6 +5,10 @@ inputs:
     description: 'Whether to cache dependencies or not'
     required: false
     default: 'true'
+outputs:
+  used_flag_caching:
+  description: 'Whether cache was used'
+  value: $ {{ steps.install.outputs.cache }}
 runs: #Must have name "run"
   using: 'composite' #Must have name "composite"
   steps:
@@ -19,6 +23,9 @@ runs: #Must have name "run"
           deps-node-modules-
 
     - name: Install dependencies
+      id: install
       if: steps.cache.outputs.cache-hit != 'true' || inputs.flag_caching != 'true'
-      run: npm ci
+      run: |
+        npm ci
+        echo "cache='${{ inputs.flag_caching }}'" >> $GITHUB_OUTPUT
       shell: bash #Composite action with "run" key needs to define in which shell we run the step

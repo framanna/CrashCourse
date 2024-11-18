@@ -28,28 +28,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            deps-node-modules-
-      
-      - name: List home directory
-        run: ls -la ~
-
-      - name: List cached files
-        run: ls -la ~/.npm
-
-      - name: Check vitest installation
-        run: npm list vitest
-
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cache-deps #framanna/CrashCourse in case I had a standalone repository
 
       - name: Test code
         continue-on-error: true # Job should continue execution even if step fails
@@ -74,18 +54,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            deps-node-modules-
-
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cache-deps #framanna/CrashCourse in case I had a standalone repository
+        
       - name: Build website
         run: npm run build
       - name: Publish JS filename

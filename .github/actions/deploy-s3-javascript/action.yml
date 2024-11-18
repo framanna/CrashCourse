@@ -1,0 +1,7 @@
+name: 'Deploy to AWS S3'
+description: 'Deploy a static website to S3'
+runs:
+  using: 'node20' #JS Runtime
+  # pre: files that need to be run before main
+  main: 'main.js' #Name of file we execute
+  # post files that need to be run after main

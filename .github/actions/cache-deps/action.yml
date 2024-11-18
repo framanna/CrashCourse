@@ -1,0 +1,18 @@
+name: ' Get & Cache Dependencies'
+descriptions: 'Get the dependencies and cache them'
+runs: #Must have name "run"
+  using: 'composite' #Must have name "composite"
+  steps:
+    - name: Cache dependencies
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          deps-node-modules-
+
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      shell: bash #Composite action with "run" key needs to define in which shell we run the step

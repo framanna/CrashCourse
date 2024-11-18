@@ -13,18 +13,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20' #Node
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            deps-node-modules-
-
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cache-deps #framanna/CrashCourse in case I had a standalone repo
 
       - name: Lint code
         run: npm run lint

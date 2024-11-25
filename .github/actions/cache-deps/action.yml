@@ -1,9 +1,9 @@
-name: ' Get & Cache Dependencies'
+name: 'Get & Cache Dependencies'
 descriptions: 'Get the dependencies and cache them'
 inputs:
   flag_caching:
     description: 'Whether to cache dependencies or not'
-    required: false
+    required: false #If I include true, then a value must be provided by user
     default: 'true'
 outputs:
   used_flag_caching:

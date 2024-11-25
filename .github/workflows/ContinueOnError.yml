@@ -19,7 +19,9 @@ jobs:
         with:
           flag_caching: 'false'
       - name: Output information
-        run: echo "Cache used? ${{ steps.cache-deps.outputs.used_flag_caching }}"
+        env:
+          output_caching_message = ${{ steps.cache-deps.outputs.used_flag_caching }} # Env variables are required to avoid script injection
+        run: echo "Cache used? $output_caching_message "
       - name: Lint code
         run: npm run lint
   test:

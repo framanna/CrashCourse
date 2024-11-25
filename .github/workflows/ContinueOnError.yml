@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run custom actions
-        uses: ./.github/actions/deploy-s3-javascript
+        uses: ./.github/actions/deploy-s3-javascript #From root
   
   report: # Dummy comment 2
     needs: [lint, deploy] # So that failure works, and is in paralell, we need a sequential flow, to failure() to walk

@@ -86,13 +86,13 @@ jobs:
         run: echo "${{ needs.build.outputs.script-file }}"  
       - name: Deploy project
         run: echo "Deploying..."
-  # information:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Get code
-  #       uses: actions/checkout@v3
-  #     - name: Run custom actions
-  #       uses: ./.github/actions/deploy-s3-javascript #From root
+  information:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Run custom actions
+        uses: ./.github/actions/deploy-s3-javascript #From root
   
   report: # Dummy comment 2
     needs: [lint, deploy] # So that failure works, and is in paralell, we need a sequential flow, to failure() to walk

@@ -1,5 +1,5 @@
 name: Deploy website
-on: 
+on:
   push:
     branches:
       - master
@@ -86,17 +86,17 @@ jobs:
         run: echo "${{ needs.build.outputs.script-file }}"  
       - name: Deploy project
         run: echo "Deploying..."
-  information:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run custom actions
-        uses: actions/deploy-s3-javascript
-  report: # Dummy comment 2
-    needs: [lint, deploy] # So that failure works, and is in paralell, we need a sequential flow, to failure() to walk
-    if: failure() # IF any other job failed, "report will be run"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Output information
-        run: |
-          echo "Something went wrong"
-          echo "${{ toJSON(github) }}"
+  # information:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Run custom actions
+  #       uses: actions/deploy-s3-javascript
+  # report: # Dummy comment 2
+  #   needs: [lint, deploy] # So that failure works, and is in paralell, we need a sequential flow, to failure() to walk
+  #   if: failure() # IF any other job failed, "report will be run"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Output information
+  #       run: |
+  #         echo "Something went wrong"
+  #         echo "${{ toJSON(github) }}"

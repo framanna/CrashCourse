@@ -86,6 +86,17 @@ jobs:
         run: echo "${{ needs.build.outputs.script-file }}"  
       - name: Deploy project
         run: echo "Deploying..."
+        # id: deploy
+        # uses: ./.github/actions/deploy-s3-javascript
+        # env:
+          # AWS_ACCES_KEY_ID: ${{ secrets.AWS_ACCES_KEY_ID}}
+          # AWS_SECRET_ACCES_KEY: ${{ secrets.AWS_SECRET_ACCES_KEY}}
+        # with:
+          # bucket: gha.custom-action.hosting
+          # dist-folder:
+      # - name: Output information
+      #   run: |
+      #       echo "Live URL: ${{ steps.deploy.outputs.website-url }}"
   information:
     runs-on: ubuntu-latest
     steps:

@@ -1,5 +1,19 @@
 name: 'Deploy to AWS S3'
 description: 'Deploy a static website to S3'
+inputs:
+  bucket:
+    description: 'The S3 bucket name'
+    required: true
+  bucket-region:
+    description: 'Region of the S3 bucket'
+    required: false
+    default: 'us-east-1'
+  dist-folder:
+    description: 'The folder containing the deployable files'
+    required: true
+# outputs:
+#   website-url:
+#     description: ' The URL of the deployed website' # On Custom action, I put the logic on the function (main.js)
 runs:
   using: 'node20' #JS Runtime
   # pre: files that need to be run before main
